@@ -1,0 +1,42 @@
+###############基本常用####################################
+1.uname -a 查看内核与系统版本等信息  cat /etc/redhat-release
+2.pidof 查看某一进程
+3.uptime 查看系统负载信息
+4.who 查看当前登陆者
+5.last 查看本机登陆记录
+6.ls -ld 查看文件目录信息
+7.cat anaconda-ks.cfg | tr [a-z] [A-Z] tr 替换
+8.wc -l /etc/passwd 查看行数 -w 查看单词数 -c 只显示字节数
+9.stat 查看文件状态
+10. cut -d: -f1 /etc/passwd 获取以冒号为间隔的一列内容
+11.touch -d "1993-07-07 19:00" anaconda-ks.cfg  修改读取时间和修改时间 -a 读取时间 -m 修改时间
+12.dd if=/dev/zero of=100_file count=1 bs=100M 取出一个100m的数据包 if 输入 of输出 bs 每个块的大小 count 复制的块数
+13.file anaconda-ks.cfg  查看文件类型
+14.find / -user linuxprobe -exec cp -a {} /root/findresults/ \; find -exec {} \;  的高级用法
+###########输入输出#################
+1. echo "Welcome to LinuxProbe.Com" > readme.txt  输出覆盖
+2. echo "Quality linux learning materials" >> readme.txt 输出追加
+3. ls -l linuxprobe 2> /root/stderr.txt 错误输出到一个文件中
+4. wc -l <readme.txt 输入重定向 相当于 cat readme.txt | wc -l
+5. echo "root" | passwd --stdin root 根据管道符修改 root 密码
+6. compgen -u  查看有多少个用户
+7.  mail -s "Readme" 913137310@qq.com << over 重定向输入 以over 结尾
+8.  echo `uname -a` >> release.txt `` 将命令结果打出
+###########################网卡配置###########################
+9.  cd  /etc/sysconfig/network-scripts/
+10.HWADDR=00:0C:29:A8:D6:53
+   TYPE=Ethernet
+   BOOTPROTO=static
+   NAME=eno16777728
+   ONBOOT=yes
+   IPADDR=192.168.10.10
+   NETMASK=255.255.255.255.0
+   GATEWAY=192.168.10.1
+   DNS1=192.168.10.1
+11.systemctl  restart network
+12.rm -f /var/run/yum.pid
+13.chmod u+x example.sh 添加权限
+###################流程控制语句##############################
+1.FreeMem=`free -m | grep Mem: | awk '{print $4}'` 取出第四列的数据 赋值给FeeMem
+2.[ ! $USER = root ]&&echo "user" || echo "root" 判断当前用户是user 还是 root
+3.
