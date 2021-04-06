@@ -1,0 +1,26 @@
+server:
+  port: 10086
+spring:
+  application:
+    name: mq-rabbitmq-producer
+  rabbitmq:
+    host: 192.168.101.30
+    port: 5673
+    username: kavito
+    password: 123456
+    virtualHost: /kavito
+#    \u6709\u5173amqptemplate\u7684\u914D\u7F6E \u5F53\u7136\u5982\u679Cconsumer\u53EA\u662F\u63A5\u6536\u6D88\u606F\u800C\u4E0D\u53D1\u9001\uFF0C\u5C31\u4E0D\u7528\u914D\u7F6Etemplate\u76F8\u5173\u5185\u5BB9\u3002
+    template:
+      #\u5931\u8D25\u91CD\u8BD5
+      retry:
+        enabled: true
+        #\u7B2C\u4E00\u6B21\u91CD\u8BD5\u65F6\u957F
+        initial-interval: 10000ms
+        #\u6700\u957F\u91CD\u8BD5\u95F4\u9694
+        max-interval: 300000ms
+        #\u4E0B\u6B21\u91CD\u8BD5\u65F6\u957F\u95F4\u9694\u7684\u500D\u6570 \u5373 \u7B2C\u4E00\u6B2110000ms \u7B2C\u4E8C\u6B2120000ms
+        multiplier: 2
+        #\u7F3A\u7701\u4EA4\u6362\u673A\u540D\u79F0
+      exchange: topic.exchange
+    #\u751F\u4EA7\u8005\u786E\u8BA4\u673A\u5236 \u786E\u4FDD\u6D88\u606F\u6B63\u786E\u53D1\u9001 \u53D1\u9001\u5931\u8D25\u4F1A\u6709\u9519\u8BEF\u56DE\u6267
+    publisher-confirm-type: correlated

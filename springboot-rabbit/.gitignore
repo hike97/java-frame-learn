@@ -31,9 +31,3 @@ build/
 
 ### VS Code ###
 .vscode/
-/springboot-rabbit/.mvn/wrapper/maven-wrapper.jar
-/springboot-rabbit/.mvn/wrapper/maven-wrapper.properties
-/springboot-rabbit/.mvn/wrapper/MavenWrapperDownloader.java
-/springboot-rabbit/mvnw
-/springboot-rabbit/mvnw.cmd
-/springboot-rabbit/.mvn/wrapper/maven-wrapper.jar
