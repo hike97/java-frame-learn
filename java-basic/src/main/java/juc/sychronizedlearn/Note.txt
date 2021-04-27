@@ -1,0 +1,25 @@
+##线程基本概念##
+线程：一个程序里的不同的执行路径。
+synchronized 关键字
+#在非静态类中
+synchronized(this) =  synchronized method
+#静态类中
+synchronized(T.class)
+synchronized 既能保证原子性也能保证可见性 所以写了synchronized 没必要用 volatile
+
+##sychronized 的底层实现
+早期JDK 重量级-OS
+后来的改进
+锁升级的概念
+    我就是厕所所长  https://www.jianshu.com/p/b43b7bf5e052
+sync(Object)
+markword 记录这个线程ID(偏向锁)
+如果线程争用：升级为自旋锁
+10次以后升级为重量级锁--OS
+
+CAS 和 重量锁的取舍
+执行时间短线程少用自旋
+执行时间长线程多用系统锁
+
+sychronized(Object)
+--不能使用String常量 Integer Long
