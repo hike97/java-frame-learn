@@ -1,0 +1,17 @@
+#BeanFactory 接口中取地址符的应用
+1.String FACTORY_BEAN_PREFIX = "&";
+  ctx.getBean("&beanFactory") 取工厂本身
+2.bean的生命周期
+  a.经历一堆XXXAware 把bean需要的spring组件调用setXX给bean
+  b.BeanPostProcessors postProcessBeforeInitialization 方法
+  c.InitializingBean
+  d.自定义 init-method
+  f.BeanPostProcessors postProcessAfterInitialization 方法
+  g.DestructionAwareBeanPostProcessors postProcessBeforeDestruction方法
+  h.DisposableBean's destroy 方法
+  i.自定义 destroy-method
+3.FactoryBean
+  ProxyFactoryBean spring aop 的实现方式
+  BeanNameAutoProxyCreator 根据beanName 进行 aop
+4.Environment
+  大概 ： 增删改查 profile

@@ -21,7 +21,7 @@
        http://www.springframework.org/schema/aop/spring-aop.xsd">
     <import resource="application-*.xml"/>
 
-    <bean id="person" class="com.mashibing.spring.Person">
+    <bean id="person" class="com.mashibing.spring.bean.Person">
 
         <!-- <constructor-arg name="name" value="mike"/>
                 <constructor-arg name="age" value="18"/>

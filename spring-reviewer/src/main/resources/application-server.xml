@@ -19,5 +19,27 @@
        http://www.springframework.org/schema/cache/spring-cache-3.1.xsd
        http://www.springframework.org/schema/aop
        http://www.springframework.org/schema/aop/spring-aop.xsd">
-    <bean id="food" class="com.mashibing.spring.Food"></bean>
+    <bean id="food" class="com.mashibing.spring.bean.Food"></bean>
+    <bean id="carFactory" class="com.mashibing.spring.factory.Carfactory"></bean>
+    <bean id="car" factory-bean="carFactory" factory-method="getCar">
+        <constructor-arg value="audi"/>
+    </bean>
+
+
+    <bean id="A" class="com.mashibing.spring.circulorreference.A">
+
+    </bean>
+
+    <bean id="B" class="com.mashibing.spring.circulorreference.B">
+
+    </bean>
+
+    <bean id="C" class="com.mashibing.spring.circulorreference.C">
+
+    </bean>
+    <bean id="school" class="com.mashibing.spring.factory.factoryBean.School">
+    </bean>
+    <bean id="factoryBeanPojo" class="com.mashibing.spring.factory.factoryBean.FactoryBeanPojo">
+    </bean>
+
 </beans>

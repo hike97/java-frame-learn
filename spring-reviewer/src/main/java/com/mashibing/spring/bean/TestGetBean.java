@@ -1,5 +1,6 @@
-package com.mashibing.spring;
+package com.mashibing.spring.bean;
 
+import com.mashibing.spring.bean.Person;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.context.support.ClassPathXmlApplicationContext;

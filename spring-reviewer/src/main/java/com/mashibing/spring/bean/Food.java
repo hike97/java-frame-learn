@@ -1,4 +1,4 @@
-package com.mashibing.spring;
+package com.mashibing.spring.bean;
 
 /**
  * @ClassName Food
