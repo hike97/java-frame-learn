@@ -1,0 +1,62 @@
+package designpattern.builder;
+
+import lombok.Builder;
+import lombok.Data;
+
+/**
+ * 类似于lombok 的builder注解
+ * */
+public class Person {
+    int id;
+    String name;
+    int age;
+    double weight;
+    int score;
+    Location loc;
+
+    private Person() {}
+
+    /**
+     * person的静态内部类 构建person对象
+     */
+    public static class PersonBuilder {
+        Person p = new Person();
+
+        public PersonBuilder basicInfo(int id, String name, int age) {
+            p.id = id;
+            p.name = name;
+            p.age = age;
+            return this;
+        }
+
+        public PersonBuilder weight(double weight) {
+            p.weight = weight;
+            return this;
+        }
+
+        public PersonBuilder score(int score) {
+            p.score = score;
+            return this;
+        }
+
+        public PersonBuilder loc(String street, String roomNo) {
+            p.loc = new Location(street, roomNo);
+            return this;
+        }
+
+        public Person build() {
+            return p;
+        }
+    }
+}
+@Builder
+@Data
+class Location {
+    String street;
+    String roomNo;
+
+    public Location(String street, String roomNo) {
+        this.street = street;
+        this.roomNo = roomNo;
+    }
+}

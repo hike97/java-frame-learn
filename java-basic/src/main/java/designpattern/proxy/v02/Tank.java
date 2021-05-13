@@ -7,7 +7,7 @@ import java.lang.reflect.Proxy;
 import java.util.Random;
 
 /**
- * 使用jdk 动态代理
+ * 使用jdk 动态代理  相关源码类ProxyGenerator MethodNode
  */
 public class Tank implements Movable {
 
