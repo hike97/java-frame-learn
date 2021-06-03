@@ -1,6 +1,7 @@
 package com.mashibing.spring.proxy.asm;
 
-import jdk.internal.org.objectweb.asm.ClassReader;
+
+import aj.org.objectweb.asm.ClassReader;
 
 import java.io.IOException;
 
@@ -25,7 +26,7 @@ public class ASMTest {
 		ClassPrinter cp = new ClassPrinter ();
 //		ClassReader cr = new ClassReader ("java.lang.Runnable");
 		ClassReader cr = new ClassReader (ClassPrinter.class.getClassLoader ().getResourceAsStream ("com/mashibing/spring/proxy/asm/T1.class"));
-		cr.accept (cp,0);
+		//		cr.accept (cp,0);
 	}
 	/**
 	 *  字节码文件

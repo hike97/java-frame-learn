@@ -1,15 +1,17 @@
 package com.mashibing.spring.proxy.asm;
 
-import jdk.internal.org.objectweb.asm.ClassReader;
-import jdk.internal.org.objectweb.asm.ClassVisitor;
-import jdk.internal.org.objectweb.asm.ClassWriter;
-import jdk.internal.org.objectweb.asm.MethodVisitor;
+
+import org.springframework.asm.ClassReader;
+import org.springframework.asm.ClassVisitor;
+import org.springframework.asm.ClassWriter;
+import org.springframework.asm.MethodVisitor;
 
 import java.io.File;
 import java.io.FileOutputStream;
 
-import static jdk.internal.org.objectweb.asm.Opcodes.ASM4;
-import static jdk.internal.org.objectweb.asm.Opcodes.INVOKESTATIC;
+import static org.springframework.asm.Opcodes.ASM4;
+import static org.springframework.asm.Opcodes.INVOKESTATIC;
+
 
 /**
  * @author hike97 2month

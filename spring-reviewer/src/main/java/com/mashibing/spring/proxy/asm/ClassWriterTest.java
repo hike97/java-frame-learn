@@ -1,8 +1,9 @@
 package com.mashibing.spring.proxy.asm;
 
-import jdk.internal.org.objectweb.asm.ClassWriter;
 
-import static jdk.internal.org.objectweb.asm.Opcodes.*;
+import org.springframework.asm.ClassWriter;
+
+import static org.springframework.asm.Opcodes.*;
 
 /**
  * @author hike97 2month

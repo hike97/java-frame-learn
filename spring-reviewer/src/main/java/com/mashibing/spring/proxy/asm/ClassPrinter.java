@@ -1,18 +1,20 @@
 package com.mashibing.spring.proxy.asm;
 
-import jdk.internal.org.objectweb.asm.*;
 
-import static jdk.internal.org.objectweb.asm.Opcodes.ASM4;
+import org.springframework.asm.*;
+
+import static org.springframework.asm.Opcodes.ASM4;
 
 /**
  * ASM Printer  源文件 来自ASMGUIDE 2.2.2
  */
 public class ClassPrinter extends ClassVisitor {
-	public ClassPrinter() {
-		super(ASM4);
+	public ClassPrinter () {
+		super (ASM4);
 	}
+
 	@Override
-	public void visit(int version, int access, String name,
+	public void visit (int version, int access, String name,
 					  String signature, String superName, String[] interfaces) {
 		System.out.println(name + " extends " + superName + " {");
 	}
