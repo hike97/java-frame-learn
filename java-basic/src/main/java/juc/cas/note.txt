@@ -1,0 +1,23 @@
+CAS 无锁优化 自旋锁 乐观锁
+1.Compare And Set/Swap
+2.如何解决ABA问题
+    https://blog.csdn.net/weixin_33669968/article/details/88888531
+    如果基础类型 无所谓 引用类型 你的女朋友跟你复合，中间经历了多个男人
+3.unsafe 类 典型 单例
+     private static final Unsafe theUnsafe;
+     private Unsafe() {
+        }
+
+    @CallerSensitive
+    public static Unsafe getUnsafe() {
+        Class var0 = Reflection.getCallerClass();
+        if (!VM.isSystemDomainLoader(var0.getClassLoader())) {
+            throw new SecurityException("Unsafe");
+        } else {
+            return theUnsafe;
+        }
+    }
+
+    相当于c 和 c++ 的指针 allocateMemory freeMemory
+    c -> malloc free
+    c++ -> new delete

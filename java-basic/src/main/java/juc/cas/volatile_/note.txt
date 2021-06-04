@@ -1,0 +1,6 @@
+1.volatile
+-保证线程可见性
+-禁止指令重排序
+-MESI CPU缓存一致性协议
+-loadfence 原语指令
+-storefence 原语指令
