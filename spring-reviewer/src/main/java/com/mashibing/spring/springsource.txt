@@ -15,3 +15,9 @@
   BeanNameAutoProxyCreator 根据beanName 进行 aop
 4.Environment
   大概 ： 增删改查 profile
+############spring版本说明####################
+Alpha: 内部测试版本bug较多
+Beta:  公开测试版本还会加功能修bug
+M:Milestone 开发期发行版本,边开发边发型
+GA:GeneralAvailability RELEASE Stable Final 稳定版本
+RC:Release Candidate 发行候选版本 基本不再更新

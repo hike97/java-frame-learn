@@ -1,0 +1,104 @@
+注解功能：
+
+1.特定标记告诉编译器一些信息 如@override
+2.编译时动态处理，生成动态代码 如@Data
+3.运行动态处理，作为额外信息的载体 如 @Component
+
+元注解：
+
+@Target:注解的作用目标
+@Retention:注解的生命周期
+@Documented:注解是否应当包含在javaDoc文档中
+@Inherited：是否允许子类继承该注解
+
+AnnotatedElement 接口常用的几个方法
+
+isAnnotationPresent 是否存在某个annotation注解
+getAnnotation 获取某个注解
+getAnnotations 获取所有注解
+
+JVM参数
+-Djdk.proxy.ProxyGenerator.saveGeneratedFiles=true  捕获中间对象 发现时java动态代理实现的注解功能
+-XX:+TraceClassLoading 能查看类的加载过程 发现AnnotationInvocationHandler加载过
+[0.227s][info   ][class,load] sun.reflect.annotation.AnnotationInvocationHandler source: jrt:/java.base
+
+#annotation 注解执行原理
+通过键值对形式为注解赋值
+编译器检查注解使用范围，将注解信息在class文件写入到元素属性表中
+运行时jvm将runtime所有注解属性存入map中 单个class生命周期
+创建注解代理类实例并传入map值
+jvm jdk动态代理 生成代理类，并初始化处理器
+invoke方法 通过传入方法名返回属性值
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Classfile /E:/idea_workspace_2021/java-learn-2021/java-basic/src/main/java/annotation/TestAnnotation.class
+  Last modified 2021年6月5日; size 467 bytes
+  MD5 checksum 5dad4936484073e3219a129a6e04bd87
+  Compiled from "TestAnnotation.java"
+public interface annotation.TestAnnotation extends java.lang.annotation.Annotation
+  minor version: 0
+  major version: 55
+  flags: (0x2601) ACC_PUBLIC, ACC_INTERFACE, ACC_ABSTRACT, ACC_ANNOTATION
+  this_class: #1                          // annotation/TestAnnotation
+  super_class: #2                         // java/lang/Object
+  interfaces: 1, fields: 0, methods: 1, attributes: 2
+Constant pool:
+   #1 = Class              #18            // annotation/TestAnnotation
+   #2 = Class              #19            // java/lang/Object
+   #3 = Class              #20            // java/lang/annotation/Annotation
+   #4 = Utf8               getString
+   #5 = Utf8               ()Ljava/lang/String;
+   #6 = Utf8               AnnotationDefault
+   #7 = Utf8               ss
+   #8 = Utf8               SourceFile
+   #9 = Utf8               TestAnnotation.java
+  #10 = Utf8               RuntimeVisibleAnnotations
+  #11 = Utf8               Ljava/lang/annotation/Target;
+  #12 = Utf8               value
+  #13 = Utf8               Ljava/lang/annotation/ElementType;
+  #14 = Utf8               METHOD
+  #15 = Utf8               Ljava/lang/annotation/Retention;
+  #16 = Utf8               Ljava/lang/annotation/RetentionPolicy;
+  #17 = Utf8               CLASS
+  #18 = Utf8               annotation/TestAnnotation
+  #19 = Utf8               java/lang/Object
+  #20 = Utf8               java/lang/annotation/Annotation
+{
+  public abstract java.lang.String getString();
+    descriptor: ()Ljava/lang/String;
+    flags: (0x0401) ACC_PUBLIC, ACC_ABSTRACT
+    AnnotationDefault:
+      default_value: s#7
+        "ss"
+}
+SourceFile: "TestAnnotation.java"
+RuntimeVisibleAnnotations:
+  0: #11(#12=[e#13.#14])
+    java.lang.annotation.Target(
+      value=[Ljava/lang/annotation/ElementType;.METHOD]
+    )
+  1: #15(#12=e#16.#17)
+    java.lang.annotation.Retention(
+      value=Ljava/lang/annotation/RetentionPolicy;.CLASS
+    )
