@@ -45,4 +45,7 @@ shift+: 开启末行模式
 .,$y 从光标位置复制到结尾 p
 .,$s/#// 替换
 %s/192.168.1.6/192.168.3.88/g  全部替换
+javac -encoding utf-8 xxx.java
+#反编译工具
+D:\programfiles\jad158g.win\jad.exe xx.class
 

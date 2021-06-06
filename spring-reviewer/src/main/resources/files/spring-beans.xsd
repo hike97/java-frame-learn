@@ -307,7 +307,7 @@
 	bean definition in which case it will inherit the parent's scope.
 
 	Singletons are most commonly used, and are ideal for multi-threaded
-	service objects. Further scopes, such as "request" or "session", might
+	com.simple.service objects. Further scopes, such as "request" or "session", might
 	be supported by extended bean factories (e.g. in a web environment).
 
 	Inner bean definitions inherit the scope of their containing bean
