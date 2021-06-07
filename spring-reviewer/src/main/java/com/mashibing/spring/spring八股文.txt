@@ -1,0 +1,25 @@
+###简单容器
+ListableBeanFactory
+AutowireCapableBeanFactory
+***DefaultListableBeanFactory.beanDefinitionMap
+###复杂容器
+ApplicationContext extends
+--EnvironmentCapable,
+  --Environment --获取容器的一些启动参数 -Dparamer=1 获取web容器的信息
+    --ConfigurableEnvironment getSystemProperties
+--ListableBeanFactory, 列表的方式管理bean
+--HierarchicalBeanFactory,多层级容器
+--MessageSource, 国际化
+--ApplicationEventPublisher,具备事件发布的能力 Observer Model
+--ResourcePatternResolver 加载资源文件ResourceLoader
+##FileSystemXmlApplicationContext
+##ClassPathXmlApplicationContext
+##XmlWebApplicationContext
+###基于注解的
+##AnnotationConfigApplicationContext
+##AnnotationConfigServletWebApplicationContext [springboot]
+##AnnotationConfigReactiveWebApplicationContext[springboot react]
+***ConfigurableApplicationContext refresh()
+    ###AbstractApplicationContext
+Resource
+###DefaultResourceLoader
