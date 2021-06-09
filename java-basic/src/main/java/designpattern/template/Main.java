@@ -1,4 +1,4 @@
-package designpattern.templatemethod;
+package designpattern.template;
 
 /**
  * 父类定制好的方法m()
