@@ -49,3 +49,17 @@ javac -encoding utf-8 xxx.java
 #反编译工具
 D:\programfiles\jad158g.win\jad.exe xx.class
 
+use information_schema
+select concat(round(sum(data_length/1024/1024),2),'MB') as data_length_MB,concat(round(sum(index_length/1024/1024),2),'MB') as index_length_MB from tables where
+table_schema='sakila' and table_name = 'psn';
+vim /etc/sysconfig/iptables
+#时间复杂度排序
+O(1) < O(logn) < O(n) < O(nlogn) < O(n^2) < O(n^3) < O(2^n)
+#tee 保存中间结果
+ls / | tee file | wc -l
+#线上看日志不要用Cat 要用less cat 会把所有文件当成输出流 grep 会遍历文件
+find -name
+#xargs -I  定制函数
+find /usr/local/ -name "*.conf"|xargs -I cat{}|wc -l
+
+

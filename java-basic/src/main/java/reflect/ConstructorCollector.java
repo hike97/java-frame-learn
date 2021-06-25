@@ -5,10 +5,13 @@ import java.lang.reflect.InvocationTargetException;
 
 /**
  * @description:
- * @author: air
+ * @author:
  * @create: 2020-03-14 14:05
  */
 public class ConstructorCollector {
+    /**
+     * 反射：运行时查看，反观程序内部
+     */
 
     public static void main (String[] args) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
         Class clazz = Class.forName ("cn.airfei.demo.reflect.RefectTarget");

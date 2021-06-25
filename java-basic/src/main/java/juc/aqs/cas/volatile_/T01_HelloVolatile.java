@@ -16,12 +16,13 @@
  *
  * @author mashibing
  */
-package juc.volatilelearn;
+package juc.aqs.cas.volatile_;
 
 import java.util.concurrent.TimeUnit;
 
 public class T01_HelloVolatile {
-    volatile boolean running = true; //对比一下有无volatile的情况下，整个程序运行结果的区别
+    //对比一下有无volatile的情况下，整个程序运行结果的区别
+    volatile boolean running = true;
 
     void m () {
         System.out.println ("m start");
@@ -43,8 +44,8 @@ public class T01_HelloVolatile {
 
         t.running = false;
 
-	}
-	
+    }
+
 }
 
 

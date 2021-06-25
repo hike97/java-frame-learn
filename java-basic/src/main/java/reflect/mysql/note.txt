@@ -1,0 +1,8 @@
+#使mysql能够远程访问
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '*********' WITH GRANT OPTION;
+#查看mysql临时目录
+show variables like 'tmpdir';
+#查看mysql进行中的任务
+show processlist;
+
+

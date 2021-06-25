@@ -1,0 +1,60 @@
+Classfile /E:/idea_workspace_2021/java-learn-2021/java-basic/src/main/java/jvm/model/ByteCodeSample.class
+  Last modified 2021年6月9日; size 280 bytes
+  MD5 checksum 77f679662b87ee5f14f1552e6e1503ac
+  Compiled from "ByteCodeSample.java"
+public class jvm.model.ByteCodeSample
+  minor version: 0
+  major version: 55
+  flags: (0x0021) ACC_PUBLIC, ACC_SUPER
+  this_class: #2                          // jvm/model/ByteCodeSample
+  super_class: #3                         // java/lang/Object
+  interfaces: 0, fields: 0, methods: 2, attributes: 1
+Constant pool:
+   #1 = Methodref          #3.#12         // java/lang/Object."<init>":()V
+   #2 = Class              #13            // jvm/model/ByteCodeSample
+   #3 = Class              #14            // java/lang/Object
+   #4 = Utf8               <init>
+   #5 = Utf8               ()V
+   #6 = Utf8               Code
+   #7 = Utf8               LineNumberTable
+   #8 = Utf8               add
+   #9 = Utf8               (II)I
+  #10 = Utf8               SourceFile
+  #11 = Utf8               ByteCodeSample.java
+  #12 = NameAndType        #4:#5          // "<init>":()V
+  #13 = Utf8               jvm/model/ByteCodeSample
+  #14 = Utf8               java/lang/Object
+{
+  public jvm.model.ByteCodeSample();
+    descriptor: ()V
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+         4: return
+      LineNumberTable:
+        line 3: 0
+
+  public static int add(int, int);
+    ##变量值的描述 返回值是Int 成员变量两个Int
+    descriptor: (II)I
+    flags: (0x0009) ACC_PUBLIC, ACC_STATIC
+    Code:
+      #操作数栈是2 局部变量是3 参数2个
+      stack=2, locals=3, args_size=2
+         0: iconst_0
+         1: istore_2
+         2: iload_0
+         3: iload_1
+         4: iadd
+         5: istore_2
+         6: iload_2
+         7: ireturn
+      LineNumberTable:
+        #代码中的第5行是字节码的第0行
+        line 5: 0
+        line 6: 2
+        line 7: 6
+}
+SourceFile: "ByteCodeSample.java"
