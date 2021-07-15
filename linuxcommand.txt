@@ -61,5 +61,17 @@ ls / | tee file | wc -l
 find -name
 #xargs -I  定制函数
 find /usr/local/ -name "*.conf"|xargs -I cat{}|wc -l
+#git 代码回退
+git reset --soft HEAD^
+###查看自带jdk位置#########
+java -version
+echo $JAVA_HOME
+which java
+ls -lrt /usr/bin/java
+ls -lrt /etc/alternatives/java
+/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.161-2.b14.el7.x86_64/jre/bin/java
+###删除自带jdk######
+rpm -qa | grep -i java
+rpm -e --nodeps
 
-
+ find . -type f -size +100M

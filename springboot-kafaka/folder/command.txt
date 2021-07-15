@@ -1,0 +1,87 @@
+1.修改分区
+sh kafka-topics.sh --zookeeper localhost:2181 --alter --topic mytopic --partitions 16
+2.
+sh kafka-topics.sh --zookeeper localhost:2181 --describe
+3
+sh kafka-topics.sh --zookeeper localhost:2181 --create --topic king --replication-factor 1 --partitions 8
+4.rocketmq 也占用9092端口 kill掉
+lsof -i:9092
+kill -s 9 5216
+#生产者
+sh kafka-console-producer.sh --broker-list localhost:9092 --topic king
+#消费者
+sh kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic king --from-beginning
+#kafka性能分析
+磁盘 影响最大的是生产者 读写速度 hdd机械 （多个分区 多个目录） 每天1TB 7天 7TB*2 算上副本
+内存 影响消费者
+网络 生产者写入 消费者读取的速度  主从复制
+cpu 压缩 不是kafka 首选
+#都不输出
+>/dev/null 2>&1
+#标准不输出错误输出
+/tmp>data>1.txt 2>&1 >/dev/null
+#同时输出
+/tmp>data>1.txt 2>&1
+#kafka发送方式
+1.发送并忘记
+2.同步发送
+3.异步发送
+#################################分区再平衡
+#自动提交 导致重复提交和数据丢失问题
+--解决方案：手动提交
+--同步阻塞提交
+    1.enable_auto_commit_config false
+    2.commitSync(); 方法会阻塞
+--异步提交
+    commitAsync() 提交回调函数
+--特定提交
+    用一个map封装要提交的数据 Map<TopicPartition,OffsetAndMetadata>
+#####################################分区再均衡
+--consumer
+  特定提交 implements ConsumerRebalanceListener
+--独立消费者 不需要订阅 适用于固定消费 一般不推荐
+  consumer.partitionsFor()
+  consumer.assign(topicPartitionList)
+#####################集群搭建步骤######################
+zookeeper 配置
+broker-id =0
+broker-id =1
+端口 9091 9092
+日志 /tmp/
+connect=localhost:2181/kafka,localhost1:2182/kafka
+工具：ZooInspector
+控制器：选举首领
+sh kafka-topics.sh --zookeeper localhost:2181/kafka --create --topic topicA
+    --replication-factor 2 --partitions 2
+replication-factor 副本因子
+最少使用原则
+
+优先副本参数:
+auto.leader.rebalance.enable=true
+
+客户端在发送或获取消息时会在本地缓存元数据。
+
+#ACK
+    -- 1 领导确认
+    -- 0 不用确认 可能丢失数据
+    -- all 全部副本确认 leader+others
+    -- -1
+#ISR
+    kafka 允许大部分数据写入副本
+###############kafka 生产者保证一致性#############
+1.一个生产者对应一个分区
+2.****ack=all或-1**** 保证至少确保写入一次
+3.至少一个副本是活跃的
+4.关闭不完全选举（金融 银行）丢弃可用性 unclean.leader.election = false;
+5.异常（写入一个特殊的主题），类似于死信消息
+####高可用
+1.最小同步副本数 kafka 3个副本（acks = 0 或 1）
+    min.insync.replicas =  2 至少有两个同步副本才会写数据
+##############kafka 消费者可靠（不重复，不丢失）
+1.提交偏移量
+2.再均衡监听器（事务 统一存储）
+3.幂等 写入一次 有且只处理一次
+##########kafka流处理
+kafka-stream
+properties
+
