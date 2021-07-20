@@ -23,3 +23,15 @@ ApplicationContext extends
     ###AbstractApplicationContext
 Resource
 ###DefaultResourceLoader
+11->4->2
+LoggingApplicationListener 初始化日志系统
+BackgroundPreinitializer 初始化 run（）方法
+    ConversionServiceInitializer 转化
+    ValidationInitializer         验证
+    MessageConverterInitializer   消息
+    JacksonInitializer            json
+    CharsetInitializer            字符集
+Delegating 啥都没做
+Liquibase 啥都没做
+
+
