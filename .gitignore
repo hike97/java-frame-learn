@@ -37,4 +37,3 @@ build/
 /springboot-rabbit/mvnw
 /springboot-rabbit/mvnw.cmd
 /springboot-rabbit/.mvn/wrapper/maven-wrapper.jar
-*.png
