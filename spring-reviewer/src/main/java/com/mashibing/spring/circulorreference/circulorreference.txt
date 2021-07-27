@@ -1,0 +1,6 @@
+三级缓存解决循环依赖 只支持单例set注入
+singletonObjects earlySingletonObjects singletonFactories
+循环依赖发生的状况
+1.prototype
+2.构造器注入：
+    因为构造器注入没有等到populateBean方法 就直接赋值 autowiredConstructor 造成无限循环
