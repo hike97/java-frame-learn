@@ -18,4 +18,5 @@ public class Creature<T> implements Serializable {
         System.out.println ("生物吃东西");
     }
 
+
 }

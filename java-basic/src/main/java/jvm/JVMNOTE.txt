@@ -1,0 +1,85 @@
+1.双亲委派机制防止过多的类重复加载
+2.类的装载过程
+   --加载
+   --链接 Linking
+        1.Verification
+            验证文件是否符合jvm规定
+        2.Preparation
+            静态成员变量赋默认值
+        3.Resolution
+            将类方法属性等符号引用解析为直接引用
+            常量池中的各种符号引用解析为指针、偏移量等内存地址的直接引用
+   --初始化 Initializing
+        1.调用类初始化代码<clinit>，给静态变量赋初始值
+3.class.forName 和 loadClass 的区别
+class.forName 是已经初始化的
+loadClass 还没有初始化 懒加载 不执行static代码
+
+4. 如何打破双亲委派机制
+--重写loadClass()
+何时打破过？
+  jdk1.2之前 自定义ClassLoader 必须重写loadClass()
+  ThreadContextClassLoader实现基础类调用实现类代码，通过thread.setContextClassLoder指定
+  热启动热部署
+    osgi tomcat 都有自己的模块指定classloader(可以加载同一类库不同版本)
+-XX:CompileThreshold = 10000 热点编译
+
+5.JMM硬件层数据一致性
+    Intel 用MESI
+    现代数据CPU的数据一致性实现=缓存锁（MESI... ）+总线锁
+    读取缓存以cache line为基本单位，目前64bytes
+    位于同一缓存行的两个不同数据，被两个不同cpu锁定，产生互相影响的伪共享问题
+###gc垃圾回收期###
+1.serial | serial old
+2.serial parallel scavenge |serial parallel scavenge old
+3.parNew (parallel new) | CMS concurrent mark sweep （毛病较多） 1.4后期
+  CMS 初始标记 root            initial mark
+      并发标记 一边运行 一边标记  concurrent mark
+      重新标记 标记运行中的标记   remark
+      并发清理 一边运行 一边清理 期间会产生浮动垃圾（下次清理） concurrent sweep
+  CMS 并发清理 浮动垃圾  需要serial old 清理 stw
+  问题：Concurrent Mode Failure 解决方法：降低触发CMS的阈值
+       PromotionFailed
+jstack 死锁
+jmap -histo 4973 | head -20
+G1
+    cset collectionSet 记录连接old区的young区标记为dirty
+    rset rememberSet   记录各个region的引用
+    动态调整新老年带比例 5%-60%
+    humongousRegion 大对象 跨Region
+    G1 会产生FGC
+    降低mixedGC触发的阈值->mixedGC 全套的CMS
+    jdk10 之前 是穿行FullGC
+三色标记算法
+漏标
+    黑色指向白色  灰色指向白色没了
+    解决方案：黑色重新标记灰色 incremental update 关注引用的增加
+            SATB snapshot at the beginning  当 灰指向白消失时 把这个引用推导GC堆栈 保证还能扫描到
+            G1 采用SATB 结合 RSet 共同使用
+
+ZGC
+    1.
+    2.特点
+        目前不分代（将来可能分冷热对象）
+        numa-aware 知道numa存在并且能利用，优先分配离得近的内存
+        ZGC->Asul C4
+        Colored pointers 颜色指针 因此可以imediatelymemoryuse
+        低42位指向 2^42 = 4T jdk13 2^44=16T
+        后面4位代表对象不同状态 m0 m1 remapped finalizable
+        18为unused
+        目前最大16T:目前主板地址总线最宽48bit-4bit = 44bit->2^44
+    3.过程
+        pause mark start
+        concurrent mark
+        relocate
+        remap
+volatile 读写屏障
+
+    StoreStoreBarrier
+    volatile写操作
+    StoreLoadBarrier
+
+    LoadLoadBarrier
+    volatile读操作
+    LoadStoreBarrier
+

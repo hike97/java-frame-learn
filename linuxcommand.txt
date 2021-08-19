@@ -75,3 +75,8 @@ rpm -qa | grep -i java
 rpm -e --nodeps
 
  find . -type f -size +100M
+
+ ##gitToken
+ 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
+
+

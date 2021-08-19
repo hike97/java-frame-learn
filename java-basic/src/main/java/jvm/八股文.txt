@@ -1,6 +1,0 @@
-1.双亲委派机制防止过多的类重复加载
-2.类的装载过程
-   --加载 --链接 --初始化
-3.class.forName 和 loadClass 的区别
-class.forName 是已经初始化的
-loadClass 还没有初始化 懒加载 不执行static代码

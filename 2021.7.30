@@ -1,0 +1,135 @@
+1.redis分布式锁
+    死锁 1.加锁没释放  2.加锁程序挂了
+    set key value nx ex ttl  set productId:lock 008sjdsl nx ex 30000
+    删除锁要判断一致 lua脚本
+2.zk分布式锁
+    顺序节点 临时节点 ephemeral_sequential
+    获取最小 判断前一个 变更时watch 回调
+3.zk 和 redis 区别
+    redis 最终一致性 数据复制可能会丢 强一致性推荐zk 响应时间短 简单数据操作
+    zk 临时顺序节点 session 节点关联 节点操作 完成释放
+4.MySQL 分布式锁
+    唯一索引 lock insert unlock delete
+5.计数器算法
+    规定时间 访问多少次 redis
+    set visitThreshold 100 60000
+6.滑动时间窗口
+    解决计数器算法临界值问题
+7.微服务原则
+    单一职责：独立服务
+    服务自制：与其他服务解耦
+    轻量级通信原则：restful 消息队列
+    粒度进化：具体业务具体分析
+8.CAP定理
+    C 一致性 Consistency
+    A 可用性 Availability
+    P 分区容错 Partition
+    CP或AP C和A冲突
+9.BASE理论
+    BasicAvailable 基本可用
+    Soft state 软状态
+    Eventually consistent 最终一致性 抢红包
+10.2pc 提交
+    第一步：投票->协调者 执行本地事务
+    缺点：同步阻塞问题：1pc只执行sql不提交，占用数据库连接资源
+         单点故障：协调者挂了
+         数据不一致：commit提交时 消息传递被破坏
+    处理方法：手动补偿 脚本补偿
+11.3pc 提交
+can Commit
+pre Commit
+do  Commit
+12.ACID 是靠什么保证的
+A 原子性 undolog  日志来保证 事务回滚
+C 一致性 consistency 由其它三个特性保证
+I 隔离性 isolation
+D 持久性 durability
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>2021.08.02
+1.java排查问题常用的命令
+ps -ef | grep java
+jps -v | grep pid
+jinfo -flags pid    查看jvm参数
+jstat -gcutil pid
+查看GC状况（百分比）
+S0     S1     E      O      M     CCS    YGC     YGCT    FGC    FGCT     GCT
+0.00   0.00  94.59  43.73  95.66  92.42     13    0.030     2    0.095    0.125
+M 元空间已使用空间的百分比
+CCS 亚索雷空间利用率
+YGCT+FGCT =  GCT gc所用时间（ms）
+jstack 线程快照工具
+jstack -l
+jmap -heap  查看堆信息
+##jmap的使用dump文件 jmap 和 jhat 连用
+jmap -dump:format=b,file=./heapDump.hprof 7590
+jhat -port 8899 heapDump.hprof
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>2021.08.03
+1.快照读：读取当前表的一个完整版本
+select * from user where id = ?
+2.当前读：
+select * from user for update;
+update delete 当前读
+3.当前读的锁
+行锁：
+    主键索引列做当前读->锁主键索引一行
+    普通索引->满足条件的行
+表锁：
+    无索引使用当前读会触发表锁
+间隙锁：没有搜到相关索引 范围查找 左开右闭
+    普通索引 会触发间隙锁
+    insert 普通索引 会同时触发行锁和间隙锁 唯一索引不会
+数据库事务的特性
+
+SELECT @@tx_isolation; 查看数据库隔离机制
+原文链接：https://blog.csdn.net/qq_22222499/article/details/79060495
+原子性，要么执行，要么不执行
+隔离性，所有操作全部执行完以前其它会话不能看到过程
+一致性，事务前后，数据总额一致
+持久性，一旦事务提交，对数据的改变就是永久的
+
+
+多个事务读可能会道理以下问题
+脏读：事务B读取事务A还没有提交的数据
+不可重复读：一行被检索两次，并且该行中的值在不同的读取之间不同时
+幻读:当在事务处理过程中执行两个相同的查询，并且第二个查询返回的行集合与第一个查询不同时
+这两个区别在于，不可重复读重点在一行，幻读的重点 ，返回的集合不一样
+
+2021.08.04
+回盘排序： order by  的字段尽量 是索引
+2021.08.05
+并发：同一时间多少请求访问
+QPS 读 query per second
+TPS 写 transaction per second
+耗时
+95线：
+99线：
+
+JVM调优质数
+    young GC 40ms内
+    major gc 100ms内
+    full gc  1s内
+
+innodb
+缓存击穿问题解决：放行一个线程 让他去访问mysql 然后在redis标记 最后放开所有线程
+缓存雪崩解决：打散过期时间 randomTime()
+缓存脏读：无法避免 利用后台消息机制
+缓解网络带宽方法：分散 压缩
+【DOCKER】
+docker run -itd --name=mysql5.6 -e MYSQL_ROOT_PASSWORD=root mysql:5.6
+docker logs -f fffe11880de3
+mysql -uroot -h127.0.0.1 -P3309 -proot
+docker exec -it a7ac31d7a9df /bin/bash
+#安装网络工具
+apt-get update
+apt-get install net-tools
+apt-get install iputils-ping
+#打包后 用docker 打包成镜像
+mvn clean package
+docker build -t mianshiclient .
+docker run -itd -p 8881:8080 -p 28881:20880 --env ServerPort=8080 --env Mysql_Host_And_Port=192.168.3.10:3309 --env Mysql_User=root --env Mysql_Password=root --env Zookeeper_Host_And_Port=192.168.3.10:2183 --env Dubbo_Port=20880 mianshi
+docker run -itd -p 8882:8080 --env ServerPort=8080 --env Mysql_Host_And_Port=192.168.3.10:3309 --env Mysql_User=root --env Mysql_Password=root --env Zookeeper_Host_And_Port=192.168.3.10:2183  mianshiclient
+
+
+
+
+
+
