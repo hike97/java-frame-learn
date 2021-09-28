@@ -187,7 +187,7 @@ public class GoodController {
                         continue;
                     }
                 }
-                //如果删除成功 释放监控器 break 跳出档期那循环
+                //如果删除成功 释放监控器 break 跳出当前那循环
                 stringRedisTemplate.unwatch ();
                 break;
             }
@@ -249,6 +249,9 @@ public class GoodController {
              */
             DefaultRedisScript script = new DefaultRedisScript ();
             String RELEASE_LOCK_LUA_SCRIPT = "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end";
+            // 设置一下返回值类型 为Long
+            // 因为删除判断的时候，返回的0,给其封装为数据类型。如果不封装那么默认返回String 类型，
+            // 那么返回字符串与0 会有发生错误。
             DefaultRedisScript<Long> redisScript = new DefaultRedisScript<> (RELEASE_LOCK_LUA_SCRIPT, Long.class);
             Long result = stringRedisTemplate.execute (redisScript, Collections.singletonList (REDIS_LOCK_KEY), value);
             // 获取 lua 脚本的执行结果

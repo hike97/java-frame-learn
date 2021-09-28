@@ -91,7 +91,6 @@ nohup sh mqbroker -c /usr/local/soft/rocketmq/conf/2m-2s-async/broker-a.properti
 jps
 48426 BrokerStartup 说明启动成功
 
-
 #文件传输
 scp broker-a-s.properties 192.168.3.11/usr/local/soft/src
 #slave 启动
@@ -105,5 +104,59 @@ java -jar rocketmq-console.jar --rocketmq.config.namesrvAddr='rocketmq-nameserve
 #1.同步元数据
 brokerController handleSlaveSynchronize() BrokerController.this.slaveSynchronize.syncAll();
 
+###2021.08.20 新增
+0.关闭命令
+  关闭namesrv服务：sh bin/mqshutdown namesrv
+  关闭broker服务 ：sh bin/mqshutdown broker
+1.broker 模式 默认是4个queue;
+2.mq4.9 quickstart
+     > nohup sh bin/mqnamesrv &
+     > tail -f ~/logs/rocketmqlogs/namesrv.log
+     > nohup sh bin/mqbroker -n localhost:9876 &
+     > tail -f ~/logs/rocketmqlogs/broker.log
+3.mvn clean package -Dmaven.test.skip=true
+4.异步刷盘 PageCache
+5.master slave 主备关系
+commitlog 落盘到mappedFile文件
+    文件名为消息大小的偏移量 每个文件大小为1G 20位10进制数字
+    顺序存储
+consumequeue
+    存放topic
+        topic 下面存放订阅的queueId
+            queueId 下面是 mappedFile
+为什么性能高
+    mmap零拷贝
+    pageCache：页缓存
+    顺序存储
+广播消费 offset存在consumer
+集群消费 offset存在broker
 
+Rebalance 产生的问题（集群消费）：
+    queue增加：broker扩容或缩容 broker升级运维 broker与nameServer网络异常
+或者 消费者增加：consumer扩容或缩容 consumer升级 consumer与nameServer异常
+产生问题：消费停止 重复消费（异步提交） 消费突刺
+offset 远程管理
+    广播消费存在本地
+    集群消费利用远程
+重试队列
+幂等：若某操作执行多次与执行一次对系统产生的影响是相同的，则称该操作是幂等的。
+解决方案：
+    幂等令牌：生产者和消费者既定协议 通常是唯一业务标识的字符串 如：订单号 流水号
+    唯一性处理：服务端通过采用一定的算法策略
+    1.缓存去重
+解决方案举例
+以支付场景为例：
+1. 当支付请求到达后，首先在Redis缓存中却获取key为支付流水号的缓存value。若value不空，则
+说明本次支付是重复操作，业务系统直接返回调用侧重复支付标识；若value为空，则进入下一步
+操作
+2. 到DBMS中根据支付流水号查询是否存在相应实例。若存在，则说明本次支付是重复操作，业务
+系统直接返回调用侧重复支付标识；若不存在，则说明本次操作是首次操作，进入下一步完成唯
+一性处理
+3. 在分布式事务中完成三项操作：
+完成支付任务
+将当前支付流水号作为key，任意字符串作为value，通过set(key, value, expireTime)将数
+据写入到Redis缓存
+将当前支付流水号作为主键，与其它相关数据共同写入到DBMS
 
+###Rocketmq幂等的实现#####
+message.setKey("流水号")

@@ -1,0 +1,4 @@
+bio blockingIO 用户线程阻塞
+nio (非javaNIO) non-blocking IO 同步非阻塞 用户线程不停地轮询调用直到kernel返回数据
+IO多路复用（IO multiplexing） javaNIO
+

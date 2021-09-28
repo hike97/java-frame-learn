@@ -40,7 +40,7 @@
 1.FreeMem=`free -m | grep Mem: | awk '{print $4}'` 取出第四列的数据 赋值给FeeMem
 2.[ ! $USER = root ]&&echo "user" || echo "root" 判断当前用户是user 还是 root
 3.
-#################vi常用命令#######################################
+#################vi全局替换#######################################
 shift+: 开启末行模式
 .,$y 从光标位置复制到结尾 p
 .,$s/#// 替换
@@ -78,5 +78,16 @@ rpm -e --nodeps
 
  ##gitToken
  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
+
+#唯一索引
+CREATE UNIQUE INDEX id_idx ON t25 (id);
+#添加普通索引 1
+CREATE INDEX id_index ON t25(id);
+#添加普通索引 2 某列不重复优先考虑unique索引
+ALTER TABLE t25 ADD INDEX id_index(id);
+ALTER TABLE t25 ADD PRIMARY KEY (id);
+DROP INDEX id_index ON t25;
+ALTER TABLE t25 DROP PRIMARY KEY;
+SELECT * FROM salaries FORCE INDEX(idx_emp_no) WHERE emp_no = 10005;
 
 
