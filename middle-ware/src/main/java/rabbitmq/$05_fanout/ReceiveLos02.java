@@ -1,6 +1,5 @@
 package rabbitmq.$05_fanout;
 
-import com.rabbitmq.client.CancelCallback;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.DeliverCallback;
 import com.rabbitmq.client.Delivery;
@@ -13,7 +12,7 @@ import java.io.IOException;
  * @create 2021-09-27 21:32
  * @desc
  **/
-public class ReceiveLos01 {
+public class ReceiveLos02 {
     //交换机的名称
     public static final String EXCHANGE_NAME = "logs";
 
@@ -29,7 +28,7 @@ public class ReceiveLos01 {
         DeliverCallback deliverCallback = new DeliverCallback () {
             @Override
             public void handle (String consumerTag, Delivery message) throws IOException {
-                System.out.println ("控制台ReceiveLos01打印接收到的消息：" + new String (message.getBody (), "UTF-8"));
+                System.out.println ("控制台ReceiveLos02打印接收到的消息：" + new String (message.getBody (), "UTF-8"));
             }
         };
         channel.basicConsume (queueName, true,deliverCallback,consumerTag -> {});
