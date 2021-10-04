@@ -32,7 +32,7 @@ public class Producer {
              * 4.是否自动删除 最后一个消费者端开连接以后 该队列是否自动删除 true 自动删除
              * 5.其他参数
              */
-            channel.queueDeclare (QUEUE_NAME, false, false, false, null);
+            channel.queueDeclare (QUEUE_NAME, true, false, false, null);
             String message = "hello world";
             /**
              * 发送一个消息
